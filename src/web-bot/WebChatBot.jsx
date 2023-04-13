@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import styles from "./WebChatBot.module.css";
-import { RiMessage2Fill } from "react-icons/ri";
-import { RxCross1 } from "react-icons/rx";
-import { GiRobotHelmet } from "react-icons/gi";
-import { BiSend } from "react-icons/bi";
-import axios from "axios";
-import socketIOClient from "socket.io-client";
-import webBotServices from "./WebBotApi/webBotApi";
-import ResponseFunction from "./responseTemplates/ResponseFunction";
-import ScrollToBottom from "react-scroll-to-bottom";
+import styles from './WebChatBot.module.css'
+import { RiMessage2Fill } from 'react-icons/ri'
+import { RxCross1 } from 'react-icons/rx'
+import { GiRobotHelmet } from 'react-icons/gi'
+import { BiSend } from 'react-icons/bi'
+import axios from 'axios'
+import webBotServices from './WebBotApi/webBotApi'
+import ResponseFunction from './responseTemplates/ResponseFunction'
+import ScrollToBottom from 'react-scroll-to-bottom'
 
 const WebChatBot = ({ color }) => {
-  var socketio;
-  var jwtToken = localStorage.getItem("jwtToken");
   // console.log(jwtToken, "jwtttttt");
 
   // socketio = socketIOClient("http://3.6.197.151:3058", {
@@ -26,43 +23,43 @@ const WebChatBot = ({ color }) => {
   //   console.log("connection");
   // });
 
-  const [openBox, setOpenBox] = useState(false);
-  const [search, setSearch] = useState("");
-  const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([]);
-  const [currentMessage, setCurrentMessage] = useState("");
+  const [openBox, setOpenBox] = useState(false)
+  const [search, setSearch] = useState('')
+  const [message, setMessage] = useState('')
+  const [chats, setChats] = useState([])
+  const [currentMessage, setCurrentMessage] = useState('')
 
-  const [messageList, setMessageList] = useState([]);
-  const [currentIntent, setCurrentIntent] = useState([]);
-  const [prevResponse, setPrevResponse] = useState([]);
-  const [context, setContext] = useState("");
-  const [context_step, setContext_step] = useState([]);
+  const [messageList, setMessageList] = useState([])
+  const [currentIntent, setCurrentIntent] = useState([])
+  const [prevResponse, setPrevResponse] = useState([])
+  const [context, setContext] = useState('')
+  const [context_step, setContext_step] = useState([])
 
-  const [botresponse, setBotresponse] = useState();
-  const [slots, setSlots] = useState({ entity: "", value: "" });
+  const [botresponse, setBotresponse] = useState()
+  const [slots, setSlots] = useState({ entity: '', value: '' })
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
-    setMessage(e.target.value);
-    setChats([message]);
-    setCurrentMessage(e.target.value);
-  };
+    setSearch(e.target.value)
+    setMessage(e.target.value)
+    setChats([message])
+    setCurrentMessage(e.target.value)
+  }
 
   const sendChatToSocket = async (data) => {
-    setSearch("");
+    setSearch('')
 
-    if (currentMessage !== "") {
+    if (currentMessage !== '') {
       const messageData = {
         // room: "room",
         // author: "username",
         message: currentMessage,
-        sentByClient: true,
+        sentByClient: true
         // time:
         //   new Date(Date.now()).getHours() + ":" + Date(Date.now()).getMinutes(),
-      };
+      }
 
-      await setMessageList((list) => [...list, messageData]);
-      setCurrentMessage("");
+      await setMessageList((list) => [...list, messageData])
+      setCurrentMessage('')
     }
 
     webBotServices
@@ -75,7 +72,7 @@ const WebChatBot = ({ color }) => {
         // slots
       )
       .then((res) => {
-        console.log(res, "ressss in su");
+        console.log(res, 'ressss in su')
         // setBotresponse(res.data.jsonTemp);
         // setCurrentIntent((item) => [...item, res.data.payload.new_intent]);
         // setPrevResponse((item) => [...item, res.data.payload.bot_response]);
@@ -95,8 +92,8 @@ const WebChatBot = ({ color }) => {
 
         // setMessageList((list) => [...list, res.data.jsonTemp]);
       })
-      .catch((err) => console.log(err, "error"));
-  };
+      .catch((err) => console.log(err, 'error'))
+  }
 
   // function SenderChat({ chat, messageTime, messageType }) {
   //   return (
@@ -119,17 +116,17 @@ const WebChatBot = ({ color }) => {
   // }
 
   const btnFun = (data) => {
-    console.log(data, "from btn clliske");
+    console.log(data, 'from btn clliske')
     const messageData = {
       message: data,
-      sentByClient: true,
-    };
-    setMessageList((list) => [...list, messageData]);
-  };
+      sentByClient: true
+    }
+    setMessageList((list) => [...list, messageData])
+  }
 
   useEffect(() => {
-    console.log(messageList, "medtsfws hhuxhuexiru4i4r");
-  }, [messageList]);
+    console.log(messageList, 'medtsfws hhuxhuexiru4i4r')
+  }, [messageList])
 
   return (
     <div className={styles.fixedDiv}>
@@ -152,9 +149,9 @@ const WebChatBot = ({ color }) => {
         {openBox && (
           <div className={styles.chatContainer}>
             <div className={styles.upperSection}>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <GiRobotHelmet size={35} color={"black"} />
-                <div style={{ marginLeft: "10px" }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <GiRobotHelmet size={35} color={'black'} />
+                <div style={{ marginLeft: '10px' }}>
                   <p className={styles.head}>Bot is online</p>
                   <p className={styles.subHead}>I am here to assist you 24/7</p>
                 </div>
@@ -166,24 +163,24 @@ const WebChatBot = ({ color }) => {
                     return (
                       <div className={styles.message}>
                         {messageContent.sentByClient ? (
-                          <div id="you" className={styles.messageContent}>
+                          <div id='you' className={styles.messageContent}>
                             {messageContent.message}
                           </div>
                         ) : (
-                          <div id="other" className={styles.otherDiv}>
+                          <div id='other' className={styles.otherDiv}>
                             <ResponseFunction
                               aiCode={messageContent.aiCode}
                               botresponse={messageContent}
                               index={index}
                               btnFun={(data) => {
-                                btnFun(data);
-                                sendChatToSocket(data);
+                                btnFun(data)
+                                sendChatToSocket(data)
                               }}
                             />
                           </div>
                         )}
                       </div>
-                    );
+                    )
                   })}
                 </ScrollToBottom>
               </div>
@@ -191,11 +188,11 @@ const WebChatBot = ({ color }) => {
 
             <div className={styles.search}>
               <input
-                placeholder="Type here.."
+                placeholder='Type here..'
                 onChange={(e) => handleChange(e)}
                 value={currentMessage}
                 onKeyPress={(event) => {
-                  event.key === "Enter" && sendChatToSocket(message);
+                  event.key === 'Enter' && sendChatToSocket(message)
                 }}
               />
               <button
@@ -203,14 +200,14 @@ const WebChatBot = ({ color }) => {
                 disabled={!search}
                 onClick={() => sendChatToSocket(message)}
               >
-                <BiSend size={20} color={search ? `${color}` : "#dadada"} />
+                <BiSend size={20} color={search ? `${color}` : '#dadada'} />
               </button>
             </div>
           </div>
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WebChatBot;
+export default WebChatBot
