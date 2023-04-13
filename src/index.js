@@ -2,10 +2,9 @@ import React from 'react'
 import styles from './styles.module.css'
 import WebChatBot from './web-bot/WebChatBot'
 
-export const ExampleComponent = ({ text }) => {
+export const ExampleComponent = () => {
   return (
-    <div className={styles.test}>
-      {/* Example Component: {text} */}
+    <div>
       <WebChatBot />
     </div>
   )

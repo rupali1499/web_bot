@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import styles from '../WebChatBot.module.css'
-import { chatBotJson } from './webbotResponse'
 
 const ResponseFunction = ({ name, botresponse, aiCode, btnFun }) => {
   const [showButtons, setShowButtons] = useState(true)
-  var obj = chatBotJson.find((item) => item.aiCode == aiCode)
+
   const text = botresponse.text_en
 
   return (
