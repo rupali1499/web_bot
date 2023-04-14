@@ -7,7 +7,8 @@
 ## Install
 
 ```bash
-npm install --save web_bot
+npm install --save web-chat-bot
+yarn add web-chat-bot
 ```
 
 ## Usage
@@ -15,8 +16,8 @@ npm install --save web_bot
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'web_bot'
-import 'web_bot/dist/index.css'
+import MyComponent from 'web-chat-bot'
+import 'web-chat-bot/dist/index.css'
 
 class Example extends Component {
   render() {
