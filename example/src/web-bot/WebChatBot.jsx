@@ -9,46 +9,55 @@ import { BiSend } from 'react-icons/bi'
 import webBotServices from './WebBotApi/webBotApi'
 import ResponseFunction from './responseTemplates/ResponseFunction'
 import ScrollToBottom from 'react-scroll-to-bottom'
+import socketIOClient from 'socket.io-client'
 
 const WebChatBot = ({ color }) => {
-  // var jwtToken = localStorage.getItem('jwtToken')
-  // console.log(jwtToken, "jwtttttt");
+  var jwtToken = localStorage.getItem('jwtToken')
+  var jwt =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiI2M2VjNzFiNDQ5YWUyOWQwOGQ3YmUyMGIiLCJyb2xlIjoic3VwZXJhZG1pbiIsInRpbWVzdGFtcCI6MTY4MTgyMTE0ODUzNCwic2Vzc2lvbktleSI6IkkxUTFxRFZzRDgiLCJpYXQiOjE2ODE4MjExNDh9.o8h5BIQm23oDRq - meTjjiXLvE7HLOvY4dwBIEomYdtU'
+  // console.log(jwtToken, 'jwtttttt')
+  var socketio
 
-  // socketio = socketIOClient("http://3.6.197.151:3058", {
-  //   query: `authorization=${jwtToken}`,
-  // });
+  // socketio = socketIOClient('http://3.6.197.151:8045', {
+  //   query: `authorization=${jwtToken}`
+  // })
 
-  // console.log(socketio, "Sockate is");
+  // console.log(socketio, 'Sockate is')
 
-  // socketio.on("var", () => {
-  //   console.log("connection");
-  // });
+  // useEffect(async () => {
+  //   if (socketio && !socketio.connected) {
+  //     await socketio.once('connect', () => {
+  //       console.log('connect', socketio)
+  //     })
+  //   }
+  // }, [])
 
   const [openBox, setOpenBox] = useState(false)
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState('')
-  const [chats, setChats] = useState([])
   const [currentMessage, setCurrentMessage] = useState('')
 
   const [messageList, setMessageList] = useState([])
-  const [currentIntent, setCurrentIntent] = useState([])
-  const [prevResponse, setPrevResponse] = useState([])
-  const [context, setContext] = useState('')
-  const [context_step, setContext_step] = useState([])
-
-  const [botresponse, setBotresponse] = useState()
-  const [slots, setSlots] = useState({ entity: '', value: '' })
 
   const handleChange = (e) => {
     setSearch(e.target.value)
     setMessage(e.target.value)
-    setChats([message])
     setCurrentMessage(e.target.value)
+  }
+  let emitData = {
+    event: 'send-message',
+    data: {
+      chatId: '111',
+      mobileNumber: '9999999999',
+      body: 'text',
+      media: [],
+      customerDetail: null
+    }
   }
 
   const sendChatToSocket = async (data) => {
     setSearch('')
-
+    // socketio.emit('chat', emitData)
     if (currentMessage !== '') {
       const messageData = {
         // room: "room",
@@ -64,23 +73,9 @@ const WebChatBot = ({ color }) => {
     }
 
     webBotServices
-      .sendMessageToBot(
-        data,
-        currentIntent,
-        prevResponse,
-        context,
-        context_step,
-        slots
-      )
+      .sendMessageToBot(data)
       .then((res) => {
         console.log(res.data.data, 'ressss in su')
-        // setBotresponse(res.data.jsonTemp)
-        // setCurrentIntent((item) => [...item, res.data.payload.new_intent])
-        // setPrevResponse((item) => [...item, res.data.payload.bot_response])
-        // let temp = []
-        // temp = [...currentIntent]
-        // console.log(currentIntent, 'current')
-
         setMessageList((list) => [...list, res.data.data])
       })
       .catch((err) => console.log(err, 'error'))
@@ -88,6 +83,9 @@ const WebChatBot = ({ color }) => {
 
   const btnFun = (data) => {
     console.log(data, 'from btn clliske')
+    // if (data == 'Locate Center') {
+    //   data = 'Locate nearest center'
+    // }
     const messageData = {
       message: data,
       sentByClient: true

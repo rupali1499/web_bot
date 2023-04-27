@@ -16,6 +16,7 @@
     "react-icons": "^4.8.0",
     "react-scripts": "file:../node_modules/react-scripts",
     "react-scroll-to-bottom": "^4.2.0",
+    "socket.io-client": "^4.6.1",
     "web_bot": "file:.."
   },
   "devDependencies": {

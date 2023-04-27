@@ -1,43 +1,33 @@
 import React, { useEffect, useState } from 'react'
-
 import styles from './WebChatBot.module.css'
 import { RiMessage2Fill } from 'react-icons/ri'
 import { RxCross1 } from 'react-icons/rx'
 import { GiRobotHelmet } from 'react-icons/gi'
 import { BiSend } from 'react-icons/bi'
-
 import webBotServices from './WebBotApi/webBotApi'
 import ResponseFunction from './responseTemplates/ResponseFunction'
 import ScrollToBottom from 'react-scroll-to-bottom'
 
 const WebChatBot = ({ color }) => {
-  // var jwtToken = localStorage.getItem('jwtToken')
-  // console.log(jwtToken, "jwtttttt");
+  var jwtToken = localStorage.getItem('jwtToken')
+  console.log(jwtToken, 'jwtttttt')
 
-  // socketio = socketIOClient("http://3.6.197.151:3058", {
-  //   query: `authorization=${jwtToken}`,
-  // });
+  socketio = socketIOClient('http://3.6.197.151:3058', {
+    query: `authorization=${jwtToken}`
+  })
 
-  // console.log(socketio, "Sockate is");
+  console.log(socketio, 'Socket is')
 
-  // socketio.on("var", () => {
-  //   console.log("connection");
-  // });
+  socketio.on('var', () => {
+    console.log('connection')
+  })
 
   const [openBox, setOpenBox] = useState(false)
   const [search, setSearch] = useState('')
   const [message, setMessage] = useState('')
   const [chats, setChats] = useState([])
   const [currentMessage, setCurrentMessage] = useState('')
-
   const [messageList, setMessageList] = useState([])
-  const [currentIntent, setCurrentIntent] = useState([])
-  const [prevResponse, setPrevResponse] = useState([])
-  const [context, setContext] = useState('')
-  const [context_step, setContext_step] = useState([])
-
-  const [botresponse, setBotresponse] = useState()
-  const [slots, setSlots] = useState({ entity: '', value: '' })
 
   const handleChange = (e) => {
     setSearch(e.target.value)
@@ -64,23 +54,9 @@ const WebChatBot = ({ color }) => {
     }
 
     webBotServices
-      .sendMessageToBot(
-        data,
-        currentIntent,
-        prevResponse,
-        context,
-        context_step,
-        slots
-      )
+      .sendMessageToBot(data)
       .then((res) => {
         console.log(res.data.data, 'ressss in su')
-        // setBotresponse(res.data.jsonTemp)
-        // setCurrentIntent((item) => [...item, res.data.payload.new_intent])
-        // setPrevResponse((item) => [...item, res.data.payload.bot_response])
-        // let temp = []
-        // temp = [...currentIntent]
-        // console.log(currentIntent, 'current')
-
         setMessageList((list) => [...list, res.data.data])
       })
       .catch((err) => console.log(err, 'error'))

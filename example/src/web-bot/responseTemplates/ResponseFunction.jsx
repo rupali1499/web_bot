@@ -5,8 +5,8 @@ const ResponseFunction = ({ name, botresponse, aiCode, btnFun, color }) => {
   const [showButtons, setShowButtons] = useState(true)
 
   const text = botresponse.message
-  console.log(botresponse, 'botresponse in res')
-  console.log(text, 'texttt')
+  // console.log(botresponse, 'botresponse in res')
+  // console.log(text, 'texttt')
   // console.log(
   //   botresponse.action.sections[0].rows,
   //   'botresponse.action.section.rows'
